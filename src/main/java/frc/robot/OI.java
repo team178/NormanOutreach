@@ -57,15 +57,23 @@ public class OI {
 
     public double getTwist() {
       return normanMain.getRawAxis(2);
-    }
+	}
+
+	public double getXboxRightX() {
+		return normanXBOX.getRawAxis(4);
+	  }
 
     public double getXboxRightY() {
       return normanXBOX.getRawAxis(5);
-    }
+	}
+	
+	public double getXboxLeftX() {
+	  return normanXBOX.getRawAxis(0);
+	}
 
     public double getXboxLeftY() {
       return normanXBOX.getRawAxis(1);
-    }
+	}
 
     public double getTrigger() {
       return normanXBOX.getRawAxis(3);
