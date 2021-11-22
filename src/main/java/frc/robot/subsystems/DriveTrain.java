@@ -10,9 +10,8 @@ package frc.robot.subsystems;
 import frc.robot.RobotMap;
 import frc.robot.commands.JoystickDrive;
 import edu.wpi.first.wpilibj.AnalogGyro;
+import edu.wpi.first.wpilibj.PWMTalonSRX;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 
@@ -24,24 +23,23 @@ public class DriveTrain extends Subsystem {
   private static MecanumDrive mecanumDrive;
 
   private AnalogGyro gyro;
-  private TalonSRX left1;
-  private TalonSRX left2;
-  private TalonSRX right1;
-  private TalonSRX right2;
+  private PWMTalonSRX left1;
+  private PWMTalonSRX left2;
+  private PWMTalonSRX right1;
+  private PWMTalonSRX right2;
 
   public DriveTrain() {
-    left1 = new TalonSRX(RobotMap.DMTopLeft);
-    left2 = new TalonSRX(RobotMap.DMBottomLeft);
-    right1 = new TalonSRX(RobotMap.DMTopRight);
-    right2 = new TalonSRX(RobotMap.DMBottomRight);
+    left1 = new PWMTalonSRX(RobotMap.DMTopLeft);
+    left2 = new PWMTalonSRX(RobotMap.DMBottomLeft);
+    right1 = new PWMTalonSRX(RobotMap.DMTopRight);
+    right2 = new PWMTalonSRX(RobotMap.DMBottomRight);
     gyro = new AnalogGyro(RobotMap.AnalogGyro);
+
+    mecanumDrive = new MecanumDrive(left1, left2, right1, right2);
   }
   
-  public void drive(double topLeft, double bottomLeft, double topRight, double bottomRight) {
-    left1.set(ControlMode.PercentOutput, topLeft);
-    left2.set(ControlMode.PercentOutput,bottomLeft);
-    right1.set(ControlMode.PercentOutput,-topRight);
-    right2.set(ControlMode.PercentOutput,-bottomRight);
+  public void drive(double xSpeed, double ySpeed, double rotationSpeed) {
+    mecanumDrive.driveCartesian(xSpeed, ySpeed, rotationSpeed, getAngle());
   }
 
   public double getAngle() {
