@@ -31,10 +31,9 @@ public class JoystickDrive extends Command {
     this.fieldCentric = fieldCentric;
   }
 
-  public JoystickDrive() {
-}
+  public JoystickDrive() {}
 
-protected void initialize() {
+  protected void initialize() {
     oi = Robot.oi;
     driveTrain = Robot.drivetrain;
     driveTrain.resetGyro();
