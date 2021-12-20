@@ -39,7 +39,7 @@ public class DriveTrain extends Subsystem {
   }
   
   public void drive(double xSpeed, double ySpeed, double rotationSpeed) {
-    mecanumDrive.driveCartesian(xSpeed, ySpeed, rotationSpeed, getAngle());
+    mecanumDrive.driveCartesian(-xSpeed, ySpeed, rotationSpeed, getAngle());
   }
 
   public double getAngle() {
