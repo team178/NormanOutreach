@@ -42,83 +42,31 @@ public class JoystickDrive extends Command {
   protected void execute() {
 
     // Joystick control
-    double thrust = oi.getThrust();
-    double strafe = oi.getStrafe();
-    double turn = oi.getTwist();
+    // double thrust = oi.getThrust();
+    // double strafe = oi.getStrafe();
+    // double turn = oi.getTwist();
 
     // Xbox control
-    // double thrust = oi.getXboxLeftY();
-    // double strafe = oi.getXboxLeftX();
-    // double turn = oi.getXboxRightX();
+    double thrust = oi.getXboxLeftY();
+    double strafe = oi.getXboxLeftX();
+    double turn = oi.getXboxRightX();
 
-    if (fieldCentric) {
-      double currentAngle = driveTrain.getAngle();
-      double requestedAngle = Math.toDegrees(Math.atan2(thrust, strafe));
-      requestedAngle = requestedAngle > 360 ? requestedAngle - 360 : requestedAngle;
-      requestedAngle = Math.abs(requestedAngle) - 90;
-      requestedAngle = requestedAngle < 0 ? 360 + requestedAngle : requestedAngle;
-      System.out.println(requestedAngle);
-      double driveAngle = Math.toRadians(requestedAngle + 90 - currentAngle);
+    thrust *= SPEED_CONTROL;
+    strafe *= SPEED_CONTROL;
+    turn *= SPEED_CONTROL;
 
-      thrust = Math.sin(driveAngle);
-      strafe = Math.cos(driveAngle);
+    if (Math.abs(thrust) < 0.1) {
+      thrust = 0;
     }
-
-    double xSpeed = thrust;
-    double ySpeed = strafe;
-    double rotSpeed = turn;
-    
-    //Raw wheel powers
-    // double topLeftPower = thrust + strafe + turn;
-    // double bottomLeftPower = thrust - strafe + turn;
-    // double topRightPower = thrust - strafe - turn;
-    // double bottomRightPower = thrust + strafe - turn;
-
-    // //Scale based off max power
-    // double maxPower = Math.max(Math.max(Math.max(topLeftPower, bottomLeftPower), topRightPower), bottomRightPower);
-    // if (maxPower > 1.0) {
-    //   topLeftPower /= maxPower;
-    //   bottomLeftPower /= maxPower;
-    //   topRightPower /= maxPower;
-    //   bottomRightPower /= maxPower;
-    // }
-
-    // //Speed control
-    // topLeftPower *= SPEED_CONTROL;
-    // bottomLeftPower *= SPEED_CONTROL;
-    // topRightPower *= SPEED_CONTROL;
-    // bottomRightPower *= SPEED_CONTROL;
-
-    // //Deadband
-    // if (Math.abs(topLeftPower) < 0.1) {
-    //   topLeftPower = 0;
-    // }
-    // if (Math.abs(bottomLeftPower) < 0.1) {
-    //   bottomLeftPower = 0;
-    // }
-    // if (Math.abs(topRightPower) < 0.1)  {
-    //     topRightPower = 0;
-    // }
-    // if (Math.abs(bottomRightPower) < 0.1) {
-    //   bottomRightPower = 0;
-    // }
-
-    xSpeed *= SPEED_CONTROL;
-    ySpeed *= SPEED_CONTROL;
-    rotSpeed *= SPEED_CONTROL;
-
-    if (Math.abs(xSpeed) < 0.1) {
-      xSpeed = 0;
+    if (Math.abs(strafe) < 0.1) {
+      strafe = 0;
     }
-    if (Math.abs(ySpeed) < 0.1) {
-      ySpeed = 0;
-    }
-    if (Math.abs(rotSpeed) < 0.1) {
-      rotSpeed = 0;
+    if (Math.abs(turn) < 0.1) {
+      turn = 0;
     }
 
     //Naruto runs, weight needed
-    driveTrain.drive(xSpeed, ySpeed, rotSpeed);
+    driveTrain.drive(strafe, thrust, turn);
   }
 
   protected boolean isFinished() {

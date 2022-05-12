@@ -16,10 +16,10 @@ package frc.robot;
 public class RobotMap {
 
     //Drive motors
-    public static int DMTopLeft = 0;
-    public static int DMBottomLeft = 1;
-    public static int DMTopRight = 2;
-    public static int DMBottomRight = 3;
+    public static int DMTopLeft = 2;
+    public static int DMBottomLeft = 3;
+    public static int DMTopRight = 1;
+    public static int DMBottomRight = 4;
 
     //Analog inputs
     public static int AnalogGyro = 0;

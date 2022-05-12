@@ -10,7 +10,7 @@ package frc.robot.subsystems;
 import frc.robot.RobotMap;
 import frc.robot.commands.JoystickDrive;
 import edu.wpi.first.wpilibj.AnalogGyro;
-import edu.wpi.first.wpilibj.PWMTalonSRX;
+import edu.wpi.first.wpilibj.motorcontrol.PWMTalonSRX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
@@ -35,11 +35,14 @@ public class DriveTrain extends Subsystem {
     right2 = new PWMTalonSRX(RobotMap.DMBottomRight);
     gyro = new AnalogGyro(RobotMap.AnalogGyro);
 
+    left1.setInverted(true);
+    left2.setInverted(true);
+
     mecanumDrive = new MecanumDrive(left1, left2, right1, right2);
   }
   
   public void drive(double xSpeed, double ySpeed, double rotationSpeed) {
-    mecanumDrive.driveCartesian(-xSpeed, ySpeed, rotationSpeed, getAngle());
+    mecanumDrive.driveCartesian(ySpeed, -xSpeed, -rotationSpeed);
   }
 
   public double getAngle() {
