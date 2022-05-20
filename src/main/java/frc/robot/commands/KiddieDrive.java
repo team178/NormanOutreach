@@ -39,20 +39,16 @@ public class KiddieDrive extends CommandBase {
     double speedMult = maxSpeed.getAsDouble();
 
     double thrust = controller.getLeftStickY() * speedMult;
-    double strafe = controller.getLeftStickX() * speedMult;
     double turn = controller.getRightStickX() * speedMult;
 
-    if (Math.abs(thrust) < 0.1) {
+    if (Math.abs(thrust) < 0.2) {
       thrust = 0;
     }
-    if (Math.abs(strafe) < 0.1) {
-      strafe = 0;
-    }
-    if (Math.abs(turn) < 0.1) {
+    if (Math.abs(turn) < 0.2) {
       turn = 0;
     }
 
-    driveTrain.drive(strafe, thrust, turn);
+    driveTrain.drive(0, thrust, turn);
   }
 
   public boolean isFinished() {
