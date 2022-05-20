@@ -29,7 +29,6 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     mainController = new ConsoleController(0);
     kiddieController = new ConsoleController(1);
-
     // Max speed is controllable from shuffleboard, for fine tuning
     NetworkTableEntry maxSpeedEntry = Shuffleboard.getTab("Norman")
       .add("KiddieDrive Speed", 0.3)
@@ -39,7 +38,12 @@ public class Robot extends TimedRobot {
       .getEntry();
 
     drivetrain = new DriveTrain();
-    drivetrain.setDefaultCommand(new KiddieDrive(drivetrain, kiddieController, () -> maxSpeedEntry.getDouble(0.3)));
+    KiddieDrive kiddieDrive = new KiddieDrive(drivetrain, kiddieController, () -> maxSpeedEntry.getDouble(0.3));
+    drivetrain.setDefaultCommand(kiddieDrive);
+    
+    // Indicator for KiddieDrive
+    Shuffleboard.getTab("Norman")
+      .addBoolean("KiddieDrive Active", () -> CommandScheduler.getInstance().isScheduled(kiddieDrive));
 
     // Will be on kiddie drive by default until toggled by A button
     mainController.a.toggleWhenPressed(new JoystickDrive(drivetrain, mainController));

@@ -43,13 +43,13 @@ public class JoystickDrive extends CommandBase {
     strafe *= SPEED_CONTROL;
     turn *= SPEED_CONTROL;
 
-    if (Math.abs(thrust) < 0.1) {
+    if (Math.abs(thrust) < 0.2) {
       thrust = 0;
     }
-    if (Math.abs(strafe) < 0.1) {
+    if (Math.abs(strafe) < 0.2) {
       strafe = 0;
     }
-    if (Math.abs(turn) < 0.1) {
+    if (Math.abs(turn) < 0.2) {
       turn = 0;
     }
 
