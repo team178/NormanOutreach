@@ -7,21 +7,42 @@
 
 package frc.robot;
 
+import java.util.Map;
+
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+
 import frc.robot.commands.JoystickDrive;
+import frc.robot.commands.KiddieDrive;
 import frc.robot.subsystems.DriveTrain;
 import libs.OI.ConsoleController;
 
 public class Robot extends TimedRobot {
-  public static DriveTrain drivetrain;
-  public static ConsoleController main_controller;
+  public DriveTrain drivetrain;
+  public ConsoleController mainController;
+  public ConsoleController kiddieController;
 
   @Override
   public void robotInit() {
-    main_controller = new ConsoleController(0);
+    mainController = new ConsoleController(0);
+    kiddieController = new ConsoleController(1);
+
+    // Max speed is controllable from shuffleboard, for fine tuning
+    NetworkTableEntry maxSpeedEntry = Shuffleboard.getTab("Norman")
+      .add("KiddieDrive Speed", 0.3)
+      .withWidget(BuiltInWidgets.kNumberSlider)
+      .withProperties(Map.of("min", 0.0, "max", 1.0))
+      .withSize(2, 1)
+      .getEntry();
+
     drivetrain = new DriveTrain();
-    drivetrain.setDefaultCommand(new JoystickDrive());
+    drivetrain.setDefaultCommand(new KiddieDrive(drivetrain, kiddieController, () -> maxSpeedEntry.getDouble(0.3)));
+
+    // Will be on kiddie drive by default until toggled by A button
+    mainController.a.toggleWhenPressed(new JoystickDrive(drivetrain, mainController));
   }
 
   @Override

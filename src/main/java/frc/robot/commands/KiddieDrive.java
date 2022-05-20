@@ -7,41 +7,40 @@
 
 package frc.robot.commands;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveTrain;
 import libs.OI.ConsoleController;
 
 /**
- * An example command.  You can replace me with your own command.
+ * Clone of JoystickDrive but for kiddies
  */
 
-public class JoystickDrive extends CommandBase {
+public class KiddieDrive extends CommandBase {
   
   DriveTrain driveTrain;
+  DoubleSupplier maxSpeed;
   ConsoleController controller;
-  
-  final double SPEED_CONTROL = 1;
 
-  public JoystickDrive(DriveTrain drivetrain, ConsoleController controller) {
+  public KiddieDrive(DriveTrain drivetrain, ConsoleController controller, DoubleSupplier maxSpeed) {
     this.controller = controller;
     this.driveTrain = drivetrain;
+    this.maxSpeed = maxSpeed;
     addRequirements(drivetrain);
   }
 
   public void initialize() {
-    
     driveTrain.resetGyro();
   }
 
   public void execute() {
 
-    double strafe = controller.getLeftStickX();
-    double thrust = controller.getLeftStickY();
-    double turn = controller.getRightStickX();
+    double speedMult = maxSpeed.getAsDouble();
 
-    thrust *= SPEED_CONTROL;
-    strafe *= SPEED_CONTROL;
-    turn *= SPEED_CONTROL;
+    double thrust = controller.getLeftStickY() * speedMult;
+    double strafe = controller.getLeftStickX() * speedMult;
+    double turn = controller.getRightStickX() * speedMult;
 
     if (Math.abs(thrust) < 0.1) {
       thrust = 0;

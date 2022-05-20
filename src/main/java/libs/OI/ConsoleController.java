@@ -47,8 +47,6 @@ public class ConsoleController {
     public ConsoleController(int port) {
         controller = new Joystick(port);
         a = new JoystickButton(controller, 1);
-        a = new JoystickButton(controller, 1);
-        a = new JoystickButton(controller, 1);
         b = new JoystickButton(controller, 2);
         x = new JoystickButton(controller, 3);
         y = new JoystickButton(controller, 4);
