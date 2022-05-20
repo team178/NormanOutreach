@@ -8,46 +8,43 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.JoystickDrive;
 import frc.robot.subsystems.DriveTrain;
+import libs.OI.ConsoleController;
 
 public class Robot extends TimedRobot {
   public static DriveTrain drivetrain;
-  public static OI oi;
-
+  public static ConsoleController main_controller;
 
   @Override
   public void robotInit() {
-    oi = new OI();
+    main_controller = new ConsoleController(0);
     drivetrain = new DriveTrain();
+    drivetrain.setDefaultCommand(new JoystickDrive());
   }
 
   @Override
-  public void disabledInit() {
-  }
+  public void disabledInit() {}
 
   @Override
-  public void disabledPeriodic() {
-  }
+  public void disabledPeriodic() {}
 
   @Override
   public void autonomousInit() {
-    Scheduler.getInstance().run();
+    CommandScheduler.getInstance().run();
   }
 
   @Override
   public void autonomousPeriodic() {
-    Scheduler.getInstance().run();
+    CommandScheduler.getInstance().run();
    }
 
-  
   @Override
-  public void teleopInit() {
-    
-  }
+  public void teleopInit() {}
 
   @Override
   public void teleopPeriodic() {
-    Scheduler.getInstance().run();
+    CommandScheduler.getInstance().run();
   }
 }

@@ -8,17 +8,16 @@
 package frc.robot.subsystems;
 
 import frc.robot.RobotMap;
-import frc.robot.commands.JoystickDrive;
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.motorcontrol.PWMTalonSRX;
 
-import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 
 /**
  * An example subsystem.  You can replace me with your own Subsystem.
  */
-public class DriveTrain extends Subsystem {
+public class DriveTrain extends SubsystemBase {
 
   private static MecanumDrive mecanumDrive;
 
@@ -61,10 +60,6 @@ public class DriveTrain extends Subsystem {
 
   public void resetGyro() {
     gyro.reset();
-  }
-
-  public void initDefaultCommand() {
-    setDefaultCommand(new JoystickDrive(false));
   }
 }
 //This is an test comment.

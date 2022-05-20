@@ -7,8 +7,7 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.OI;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.subsystems.DriveTrain;
 
@@ -16,40 +15,29 @@ import frc.robot.subsystems.DriveTrain;
  * An example command.  You can replace me with your own command.
  */
 
-public class JoystickDrive extends Command {
+public class JoystickDrive extends CommandBase {
   
-  OI oi;
   DriveTrain driveTrain;
   
   final double SPEED_CONTROL = 1;
-  boolean fieldCentric;
   double xVal, yVal, twistVal;
   double currentAngle;
 
-  public JoystickDrive(boolean fieldCentric) {
-    requires(Robot.drivetrain);
-    this.fieldCentric = fieldCentric;
+  public JoystickDrive() {
+    addRequirements(Robot.drivetrain);
   }
 
-  public JoystickDrive() {}
-
-  protected void initialize() {
-    oi = Robot.oi;
+  public void initialize() {
+    
     driveTrain = Robot.drivetrain;
     driveTrain.resetGyro();
   }
 
-  protected void execute() {
+  public void execute() {
 
-    // Joystick control
-    // double thrust = oi.getThrust();
-    // double strafe = oi.getStrafe();
-    // double turn = oi.getTwist();
-
-    // Xbox control
-    double thrust = oi.getXboxLeftY();
-    double strafe = oi.getXboxLeftX();
-    double turn = oi.getXboxRightX();
+    double thrust = Robot.main_controller.getLeftStickY();
+    double strafe = Robot.main_controller.getLeftStickX();
+    double turn = Robot.main_controller.getRightStickX();
 
     thrust *= SPEED_CONTROL;
     strafe *= SPEED_CONTROL;
@@ -69,15 +57,15 @@ public class JoystickDrive extends Command {
     driveTrain.drive(strafe, thrust, turn);
   }
 
-  protected boolean isFinished() {
+  public boolean isFinished() {
     return false;
   }
 
-  protected void end() {
+  public void end() {
     driveTrain.drive(0, 0, 0);
   }
 
-  protected void interrupted() {
+  public void interrupted() {
     end();
   }
 }
